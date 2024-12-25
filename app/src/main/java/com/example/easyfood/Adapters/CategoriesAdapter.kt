@@ -12,6 +12,7 @@ import com.example.easyfood.pojo.CategoryList
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
     private var categoriesList = ArrayList<Category>()
+    var onItemClickListener: ((Category) -> Unit)? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setCategoryList(categoryList: ArrayList<Category>) {
@@ -38,6 +39,9 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
             .into(holder.binding.imgCategory)
 
         holder.binding.categoryNameTv.text = categoriesList[position].strCategory;
+        holder.itemView.setOnClickListener{
+            onItemClickListener!!.invoke(categoriesList[position])
+        }
     }
 
 }

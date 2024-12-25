@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.easyfood.Adapters.CategoriesAdapter
 import com.example.easyfood.Adapters.PopularItemAdapter
+import com.example.easyfood.activities.CategoryMealsActivity
 import com.example.easyfood.activities.MealDetailsActivity
 import com.example.easyfood.databinding.FragmentHomeBinding
 import com.example.easyfood.pojo.Category
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
         const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
         const val MEAL_NAME = "com.example.easyfood.fragments.nameMeal"
         const val MEAL_THUMB = "com.example.easyfood.fragments.thumbMeal"
+        const val CATEGORY_NAME = "com.example.easyfood.fragments.categoryName"
     }
 
     override fun onCreateView(
@@ -56,7 +58,16 @@ class HomeFragment : Fragment() {
 
         onRandomMealClicked();
         onPopularItemClicked();
+        onCategoryClicked();
         return binding.root;
+    }
+
+    private fun onCategoryClicked() {
+        categoriesAdapter.onItemClickListener = {category: Category ->
+            val intent = Intent(activity, CategoryMealsActivity::class.java)
+            intent.putExtra(CATEGORY_NAME, category.strCategory)
+            startActivity(intent)
+        }
     }
 
     private fun prepareCategoriesAdapter() {
