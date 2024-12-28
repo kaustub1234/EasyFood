@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.easyfood.pojo.Meal
+import com.example.easyfood.viewModel.MealTypeConverter
 
 @Database(entities = [Meal::class], version = 1)
+@TypeConverters(MealTypeConverter::class)
 abstract class MealDataBase:RoomDatabase() {
     abstract fun mealDAO():MealDao
 
@@ -15,6 +18,7 @@ abstract class MealDataBase:RoomDatabase() {
         @Volatile
         var INSTANCE:MealDataBase? = null
 
+        @Synchronized
         fun getInstance(context:Context):MealDataBase
         {
 

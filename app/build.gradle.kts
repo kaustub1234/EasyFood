@@ -74,4 +74,8 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    //viewmodelScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
 }

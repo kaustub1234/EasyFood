@@ -5,15 +5,16 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.easyfood.R
 import com.example.easyfood.databinding.ActivityMealDetailsBinding
 import com.example.easyfood.databinding.FragmentHomeBinding
 import com.example.easyfood.fragments.HomeFragment
 import com.example.easyfood.pojo.Meal
 import com.example.easyfood.viewModel.MealDetailsViewModel
+import com.example.easyfood.viewModel.MealViewModelFactory
+import roomDb.MealDataBase
 
 class MealDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMealDetailsBinding
@@ -21,33 +22,49 @@ class MealDetailsActivity : AppCompatActivity() {
     private lateinit var mealThumb: String;
     private lateinit var mealName: String;
     private lateinit var mealDetailsViewModel: MealDetailsViewModel;
-    private lateinit var youtubeLink:String
+    private lateinit var youtubeLink: String
+    private var meal: Meal? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMealDetailsBinding.inflate(layoutInflater)
-        mealDetailsViewModel =
-            ViewModelProvider(this@MealDetailsActivity)[MealDetailsViewModel::class.java];
+//        mealDetailsViewModel = ViewModelProvider(this@MealDetailsActivity)[MealDetailsViewModel::class.java];
+        val mealDataBase = MealDataBase.getInstance(this)
+        mealDetailsViewModel = ViewModelProvider(
+            this@MealDetailsActivity,
+            MealViewModelFactory(mealDataBase)
+        )[mealDetailsViewModel::class.java];
         loadingCase()
         setContentView(binding.root)
         getIntentRandomMealInfo()
         mealDetailsViewModel.getMealDetail(mealId);
 
         observerMealDetailsLiveData()
-        binding.imgVideo.setOnClickListener{
+        onClickListeners();
+        setInfoInView()
+
+    }
+
+    private fun onClickListeners() {
+        binding.imgVideo.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
             startActivity(intent)
         }
 
-        setInfoInView()
-
+        binding.addFavBtn.setOnClickListener {
+            meal?.let {
+                mealDetailsViewModel.insertMeal(it)
+                Toast.makeText(this, "Meal Saved", Toast.LENGTH_SHORT);
+            }
+        }
     }
 
     private fun observerMealDetailsLiveData() {
         mealDetailsViewModel.observeMealDetailsLiveData().observe(
             this
         ) {
+            meal = it
             binding.categoryTv.text = "Category: ${it.strCategory}"
             binding.locationTv.text = "Location: ${it.strArea}"
             binding.instructionDescTv.text = it.strInstructions
@@ -70,8 +87,7 @@ class MealDetailsActivity : AppCompatActivity() {
         mealThumb = intent.getStringExtra(HomeFragment.MEAL_THUMB)!!
     }
 
-    private fun loadingCase()
-    {
+    private fun loadingCase() {
         binding.addFavBtn.visibility = View.INVISIBLE
         binding.instructionDescTv.visibility = View.INVISIBLE
         binding.instructionTv.visibility = View.INVISIBLE
@@ -82,8 +98,7 @@ class MealDetailsActivity : AppCompatActivity() {
         binding.linearProgressBar.visibility = View.VISIBLE
     }
 
-    private fun onResponseCase()
-    {
+    private fun onResponseCase() {
         binding.addFavBtn.visibility = View.VISIBLE
         binding.instructionDescTv.visibility = View.VISIBLE
         binding.instructionTv.visibility = View.VISIBLE

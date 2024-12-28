@@ -13,7 +13,7 @@ interface MealDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeal(meal: Meal);
     @Delete
-    suspend fun delete(meal: Meal)
+    suspend fun deleteMeal(meal: Meal)
 
     @Query("SELECT * FROM mealInformation")
     fun getAllMeals():LiveData<List<Meal>>

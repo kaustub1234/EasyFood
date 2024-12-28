@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "mealInformation")
 data class Meal(
     val dateModified: Any?,
-    @PrimaryKey(autoGenerate = true)
-    val idMeal: String?,
+    @PrimaryKey
+    val idMeal: String,
     val strArea: String?,
     val strCategory: String?,
     val strCreativeCommonsConfirmed: Any?,
