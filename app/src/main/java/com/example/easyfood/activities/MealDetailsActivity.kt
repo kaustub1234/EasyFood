@@ -51,7 +51,7 @@ class MealDetailsActivity : AppCompatActivity() {
             binding.categoryTv.text = "Category: ${it.strCategory}"
             binding.locationTv.text = "Location: ${it.strArea}"
             binding.instructionDescTv.text = it.strInstructions
-            youtubeLink = it.strYoutube
+            youtubeLink = it.strYoutube.toString()
             onResponseCase()
         }
     }
