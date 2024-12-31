@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -34,7 +35,8 @@ class MealDetailsActivity : AppCompatActivity() {
         mealDetailsViewModel = ViewModelProvider(
             this@MealDetailsActivity,
             MealViewModelFactory(mealDataBase)
-        )[mealDetailsViewModel::class.java];
+        )[MealDetailsViewModel::class.java];
+
         loadingCase()
         setContentView(binding.root)
         getIntentRandomMealInfo()
@@ -55,7 +57,7 @@ class MealDetailsActivity : AppCompatActivity() {
         binding.addFavBtn.setOnClickListener {
             meal?.let {
                 mealDetailsViewModel.insertMeal(it)
-                Toast.makeText(this, "Meal Saved", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "Meal Saved", Toast.LENGTH_LONG).show();
             }
         }
     }

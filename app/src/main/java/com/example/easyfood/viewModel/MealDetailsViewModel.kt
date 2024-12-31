@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import roomDb.MealDataBase
 
-class MealDetailsViewModel(val mealDataBase: MealDataBase):ViewModel() {
+class MealDetailsViewModel(private val mealDataBase: MealDataBase):ViewModel() {
     private var mealDetailsLiveData = MutableLiveData<Meal>();
     private val TAG = javaClass.kotlin.simpleName;
 

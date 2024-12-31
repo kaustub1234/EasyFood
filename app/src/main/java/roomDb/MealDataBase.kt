@@ -10,20 +10,17 @@ import com.example.easyfood.viewModel.MealTypeConverter
 
 @Database(entities = [Meal::class], version = 1)
 @TypeConverters(MealTypeConverter::class)
-abstract class MealDataBase:RoomDatabase() {
-    abstract fun mealDAO():MealDao
+abstract class MealDataBase : RoomDatabase() {
+    abstract fun mealDAO(): MealDao
 
-    companion object
-    {
+    companion object {
         @Volatile
-        var INSTANCE:MealDataBase? = null
+        var INSTANCE: MealDataBase? = null
 
         @Synchronized
-        fun getInstance(context:Context):MealDataBase
-        {
+        fun getInstance(context: Context): MealDataBase {
 
-            if(INSTANCE==null)
-            {
+            if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                     context,
                     MealDataBase::class.java,

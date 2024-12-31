@@ -14,12 +14,14 @@ import com.example.easyfood.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import roomDb.MealDataBase
 
-class HomeViewModel:ViewModel() {
+class HomeViewModel(private val mealDataBase: MealDataBase):ViewModel() {
     private var randomMealLiveData = MutableLiveData<Meal>()
     private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>();
     private var categoriesLiveData = MutableLiveData<List<Category>>();
     private val TAG = javaClass.kotlin.simpleName;
+    private var favouriteMealsLive = mealDataBase.mealDAO().getAllMeals();
 
     fun getRandomMeal()
     {
@@ -86,5 +88,9 @@ class HomeViewModel:ViewModel() {
     fun observeCategoriesLiveData():LiveData<List<Category>>
     {
         return categoriesLiveData;
+    }
+    fun observeFavoritesMealsLiveData():LiveData<List<Meal>>
+    {
+        return favouriteMealsLive;
     }
 }
