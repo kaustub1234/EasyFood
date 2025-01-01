@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.easyfood.Adapters.FavoritesMealsAdapter
 import com.example.easyfood.R
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.databinding.FragmentFravoritesBinding
+import com.example.easyfood.pojo.Meal
 import com.example.easyfood.viewModel.HomeViewModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass.
@@ -32,6 +37,34 @@ class FavoritesFragment : Fragment() {
 
         prepareFavoritesRecyclerView()
         observeFavorites()
+
+        val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true;
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition;
+                val meal:Meal = favoritesMealsAdapter.differ.currentList[position]
+                viewModel.deleteMeal(favoritesMealsAdapter.differ.currentList[position])
+
+                Snackbar.make(requireView(), "Meal deleted", Snackbar.LENGTH_LONG).setAction(
+                    "Undo",
+                    View.OnClickListener {
+                        viewModel.insertMeal(meal)
+                    }
+                ).show()
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.favoritesRecyclerView)
 
         return binding.root;
     }
