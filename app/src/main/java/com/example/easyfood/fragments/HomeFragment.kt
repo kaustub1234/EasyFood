@@ -60,6 +60,7 @@ class HomeFragment : Fragment() {
 
         onRandomMealClicked();
         onPopularItemClicked();
+        onPopularItemLongClicked()
         onCategoryClicked();
         return binding.root;
     }
@@ -92,6 +93,12 @@ class HomeFragment : Fragment() {
             intent.putExtra(MEAL_NAME, it.strMeal)
             intent.putExtra(MEAL_THUMB, it.strMealThumb)
             startActivity(intent)
+        }
+    }
+    private fun onPopularItemLongClicked() {
+        popularItemAdapter.onLongItemClickListener = {
+            val mealDescBottomSheetFragment = MealDescBottomSheetFragment.newInstance(it.idMeal)
+            mealDescBottomSheetFragment.show(childFragmentManager, "Meal Info")
         }
     }
 

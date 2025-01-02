@@ -22,6 +22,7 @@ class HomeViewModel(private val mealDataBase: MealDataBase):ViewModel() {
     private var randomMealLiveData = MutableLiveData<Meal>()
     private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>();
     private var categoriesLiveData = MutableLiveData<List<Category>>();
+    private var bottomSheetMealDetailsLiveData = MutableLiveData<Meal>();
     private val TAG = javaClass.kotlin.simpleName;
     private var favouriteMealsLive = mealDataBase.mealDAO().getAllMeals();
 
@@ -57,6 +58,24 @@ class HomeViewModel(private val mealDataBase: MealDataBase):ViewModel() {
             }
 
             override fun onFailure(call: Call<CategoryList>, t: Throwable) {
+                Log.d(TAG, t.message.toString())
+            }
+        })
+    }
+
+    fun getMealById(id:String)
+    {
+        RetrofitInstance.api.getMealDetails(id).enqueue(object:Callback<MealList>{
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                if (response.body() != null) {
+                    val meal:Meal = response.body()!!.meals.first()
+                    bottomSheetMealDetailsLiveData.value= meal;
+                } else {
+                    return;
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
             }
         })
@@ -111,4 +130,6 @@ class HomeViewModel(private val mealDataBase: MealDataBase):ViewModel() {
     {
         return favouriteMealsLive;
     }
+
+    fun observeBottomSheetMealDetailsLiveData():LiveData<Meal> = bottomSheetMealDetailsLiveData;
 }

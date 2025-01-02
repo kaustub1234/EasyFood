@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mealDetailsButtomSheet"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.MealDescBottomSheetFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/mealImage"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:scaleType="centerCrop"
+        android:src="@color/accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/mealDetailsLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mealImage"
+        app:layout_constraintTop_toTopOf="@+id/mealImage">
+
+        <TextView
+            android:id="@+id/mealLoactionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_loaction"
+            android:drawableTint="@color/g_black"
+            android:fontFamily="@font/myfont"
+            android:text="Palistine"
+            android:textColor="@color/g_black" />
+
+        <TextView
+            android:id="@+id/categoryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_categories"
+            android:drawableTint="@color/g_black"
+            android:fontFamily="@font/myfont"
+            android:text="Beef"
+            android:textColor="@color/g_black" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mealNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:fontFamily="@font/myfont"
+        android:text="foddie"
+        android:textColor="@color/g_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/mealDetailsLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/mealDetailsLinearLayout" />
+
+    <TextView
+        android:id="@+id/readMoreTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/myfont"
+        android:text="Read More..."
+        android:textColor="@color/g_black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/mealNameTv"
+        app:layout_constraintTop_toBottomOf="@+id/mealNameTv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
