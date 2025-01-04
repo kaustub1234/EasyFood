@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.easyfood.Adapters.CategoriesAdapter
 import com.example.easyfood.Adapters.PopularItemAdapter
+import com.example.easyfood.R
 import com.example.easyfood.activities.CategoryMealsActivity
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.activities.MealDetailsActivity
@@ -62,11 +63,21 @@ class HomeFragment : Fragment() {
         onPopularItemClicked();
         onPopularItemLongClicked()
         onCategoryClicked();
+        onSearchIconCLicked();
+
         return binding.root;
     }
 
+    private fun onSearchIconCLicked() {
+        binding.imgSearch.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_holder, SearchFragment())
+                .commit()
+        }
+    }
+
     private fun onCategoryClicked() {
-        categoriesAdapter.onItemClickListener = {category: Category ->
+        categoriesAdapter.onItemClickListener = { category: Category ->
             val intent = Intent(activity, CategoryMealsActivity::class.java)
             intent.putExtra(CATEGORY_NAME, category.strCategory)
             startActivity(intent)
@@ -95,6 +106,7 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
+
     private fun onPopularItemLongClicked() {
         popularItemAdapter.onLongItemClickListener = {
             val mealDescBottomSheetFragment = MealDescBottomSheetFragment.newInstance(it.idMeal)
