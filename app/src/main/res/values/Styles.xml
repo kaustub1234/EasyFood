@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="bottomSheetStyle">@drawable/rounded_top_share</item>
+    </style>-->
+</resources>
