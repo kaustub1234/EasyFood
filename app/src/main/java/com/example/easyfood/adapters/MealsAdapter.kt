@@ -1,4 +1,4 @@
-package com.example.easyfood.Adapters
+package com.example.easyfood.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

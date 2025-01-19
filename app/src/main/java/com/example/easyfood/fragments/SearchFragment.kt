@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.easyfood.Adapters.MealsAdapter
-import com.example.easyfood.R
+import com.example.easyfood.adapters.MealsAdapter
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.databinding.FragmentSearchBinding
 import com.example.easyfood.viewModel.HomeViewModel

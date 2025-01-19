@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.easyfood.Adapters.MealsAdapter
+import com.example.easyfood.adapters.MealsAdapter
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.databinding.FragmentFravoritesBinding
 import com.example.easyfood.pojo.Meal

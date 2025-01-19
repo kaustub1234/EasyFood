@@ -1,20 +1,20 @@
-package com.example.easyfood.Adapters
+package com.example.easyfood.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.easyfood.R
 import com.example.easyfood.databinding.CategoryItemBinding
+import com.example.easyfood.fragments.HomeFragment
 import com.example.easyfood.pojo.Category
-import com.example.easyfood.pojo.CategoryList
 
-class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
+class CategoriesAdapter(var fragment: Fragment?) :
+    RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
     private var categoriesList = ArrayList<Category>()
-    var onItemClickListener: ((Category) -> Unit)? = null
+    var onItemClickListener: ((Category, Int) -> Unit)? = null
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setCategoryList(categoryList: ArrayList<Category>) {
         this.categoriesList = categoryList;
         notifyDataSetChanged();
@@ -34,13 +34,14 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
+
         Glide.with(holder.itemView)
             .load(categoriesList[position].strCategoryThumb)
             .into(holder.binding.imgCategory)
 
         holder.binding.categoryNameTv.text = categoriesList[position].strCategory;
-        holder.itemView.setOnClickListener{
-            onItemClickListener!!.invoke(categoriesList[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener!!.invoke(categoriesList[position], position)
         }
     }
 

@@ -2,18 +2,12 @@ package com.example.easyfood.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.easyfood.Adapters.CategoryMealsAdapter
-import com.example.easyfood.R
+import com.example.easyfood.adapters.CategoryMealsAdapter
 import com.example.easyfood.databinding.ActivityCategoryMealsBinding
-import com.example.easyfood.databinding.CategoryItemBinding
 import com.example.easyfood.fragments.HomeFragment
-import com.example.easyfood.pojo.MealsByCategory
 import com.example.easyfood.viewModel.CategoryMealsViewModel
-import kotlin.math.log
 
 class CategoryMealsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCategoryMealsBinding
