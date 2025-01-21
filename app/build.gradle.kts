@@ -77,4 +77,6 @@ dependencies {
     //viewmodelScope
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
 }

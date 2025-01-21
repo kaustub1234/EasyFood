@@ -16,10 +16,10 @@
             android:id="@+id/collapsingToolBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/accent"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:collapsedTitleTextColor="@color/white"
+            app:contentScrim="@color/accent"
             app:expandedTitleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="Meal name">
 
             <ImageView
@@ -69,50 +69,73 @@
 
                 <TextView
                     android:id="@+id/categoryTv"
-                    android:fontFamily="@font/myfont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_categories"
                     android:drawableTint="@color/g_black"
+                    android:fontFamily="@font/myfont"
                     android:text="Category: Beef"
                     android:textColor="@color/g_black"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/locationTv"
-                    android:fontFamily="@font/myfont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_loaction"
                     android:drawableTint="@color/g_black"
+                    android:fontFamily="@font/myfont"
                     android:text="Area: Palistine"
                     android:textColor="@color/g_black"
                     android:textStyle="bold" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
-                android:id="@+id/instructionTv"
-                android:fontFamily="@font/myfont"
+                android:id="@+id/ingrediantsTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="instructions :"
+                android:fontFamily="@font/myfont"
+                android:text="Ingrediants :"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mealShortDescLinearLayout" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingrediantsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingrediantsTv" />
+
+            <TextView
+                android:id="@+id/instructionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/myfont"
+                android:text="instructions :"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingrediantsRecyclerView" />
+
             <TextView
                 android:id="@+id/instructionDescTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:justificationMode="inter_word"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:justificationMode="inter_word"
                 android:text="instructions :"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
@@ -121,19 +144,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/instructionTv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
     <ImageView
         android:id="@+id/img_video"
-        android:src="@drawable/ic_video"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:layout_gravity="bottom|center"/>
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:src="@drawable/ic_video" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/linearProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:indeterminate="true"
+        android:visibility="gone"
         app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom"/>
+        app:layout_anchorGravity="bottom" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

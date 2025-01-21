@@ -2,15 +2,14 @@ package com.example.easyfood.activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.easyfood.databinding.ActivityMealDetailsBinding
-import com.example.easyfood.databinding.FragmentHomeBinding
 import com.example.easyfood.fragments.HomeFragment
 import com.example.easyfood.pojo.Meal
 import com.example.easyfood.viewModel.MealDetailsViewModel
@@ -25,12 +24,14 @@ class MealDetailsActivity : AppCompatActivity() {
     private lateinit var mealDetailsViewModel: MealDetailsViewModel;
     private lateinit var youtubeLink: String
     private var meal: Meal? = null
+    private var ingrediantsList: List<String> = ArrayList<String>();
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMealDetailsBinding.inflate(layoutInflater)
 //        mealDetailsViewModel = ViewModelProvider(this@MealDetailsActivity)[MealDetailsViewModel::class.java];
+
         val mealDataBase = MealDataBase.getInstance(this)
         mealDetailsViewModel = ViewModelProvider(
             this@MealDetailsActivity,
@@ -71,7 +72,19 @@ class MealDetailsActivity : AppCompatActivity() {
             binding.locationTv.text = "Location: ${it.strArea}"
             binding.instructionDescTv.text = it.strInstructions
             youtubeLink = it.strYoutube.toString()
+
+            getIngrediantsDetails(meal);
             onResponseCase()
+        }
+    }
+
+    private fun getIngrediantsDetails(meal: Meal?) {
+        for (i in 1 until 21) {
+            Log.d(
+                "Tagyy", Meal::class.members
+                    .find { it.name == "strIngredient1" }.toString()
+            )
+
         }
     }
 

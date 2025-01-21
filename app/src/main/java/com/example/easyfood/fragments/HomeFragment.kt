@@ -31,12 +31,15 @@ class HomeFragment : Fragment() {
     private lateinit var popularItemAdapter: PopularItemAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
     private var categoryList: ArrayList<Category> = ArrayList()
+    private lateinit var categoryViewType: String;
 
     companion object {
         const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
         const val MEAL_NAME = "com.example.easyfood.fragments.nameMeal"
         const val MEAL_THUMB = "com.example.easyfood.fragments.thumbMeal"
         const val CATEGORY_NAME = "com.example.easyfood.fragments.categoryName"
+        const val CATEGORY_NOT_EXPANDED = "com.example.easyfood.fragments.categoryViewNotExpanded"
+        const val CATEGORY_EXPANDED = "com.example.easyfood.fragments.categoryViewExpanded"
     }
 
     override fun onCreateView(
@@ -49,6 +52,7 @@ class HomeFragment : Fragment() {
         viewModel = (activity as MainActivity).viewModel;
         popularItemAdapter = PopularItemAdapter()
         categoriesAdapter = CategoriesAdapter(this)
+        categoryViewType = CATEGORY_NOT_EXPANDED;
 
 
         viewModel.getPopularItem()
@@ -104,7 +108,8 @@ class HomeFragment : Fragment() {
             }
 
             var tempArray = categoryList.filterTillIndex(4)
-            var catObj:Category = Category("1", "View more..", "", categoryList[tempArray.size-1].strCategoryThumb);
+            var catObj: Category =
+                Category("1", "View more..", "", categoryList[tempArray.size - 1].strCategoryThumb);
             tempArray.add(catObj)
 
             categoriesAdapter.setCategoryList(tempArray)
@@ -135,10 +140,11 @@ class HomeFragment : Fragment() {
         }
 
         categoriesAdapter.onItemClickListener = { category: Category, idx ->
-            if (idx == 5) {
+            if (idx == 5 && CATEGORY_NOT_EXPANDED.equals(categoryViewType, false)) {
+                categoryViewType = CATEGORY_EXPANDED;
                 categoriesAdapter.setCategoryList(categoryList)
-                binding.categoriesRecyclerView.smoothScrollToPosition(categoryList.size-1)
-                binding.scrollView.post{
+                binding.categoriesRecyclerView.smoothScrollToPosition(categoryList.size - 1)
+                binding.scrollView.post {
                     binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
                 }
             } else {
