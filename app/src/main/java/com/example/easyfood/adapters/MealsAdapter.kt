@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.easyfood.R
 import com.example.easyfood.databinding.MealItemBinding
 import com.example.easyfood.pojo.Meal
 
@@ -37,9 +39,14 @@ class MealsAdapter :
     }
 
     override fun onBindViewHolder(holder: FavoritesMealsViewHolder, position: Int) {
+        val options: RequestOptions = RequestOptions()
+            .placeholder(R.drawable.food_loading_gif)
+            .error(R.drawable.more_meal)
+
         val meal = differ.currentList[position]
         Glide.with(holder.itemView)
             .load(meal.strMealThumb)
+            .apply(options)
             .into(holder.binding.imgMeal)
 
         holder.binding.mealNameTv.text = meal.strMeal

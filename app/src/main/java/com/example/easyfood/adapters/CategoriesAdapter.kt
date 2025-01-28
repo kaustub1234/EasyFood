@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.easyfood.R
 import com.example.easyfood.databinding.CategoryItemBinding
 import com.example.easyfood.fragments.HomeFragment
@@ -34,9 +35,12 @@ class CategoriesAdapter(var fragment: Fragment?) :
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-
+        val options: RequestOptions = RequestOptions()
+            .placeholder(R.drawable.food_loading_gif)
+            .error(R.drawable.more_meal)
         Glide.with(holder.itemView)
             .load(categoriesList[position].strCategoryThumb)
+            .apply(options)
             .into(holder.binding.imgCategory)
 
         holder.binding.categoryNameTv.text = categoriesList[position].strCategory;

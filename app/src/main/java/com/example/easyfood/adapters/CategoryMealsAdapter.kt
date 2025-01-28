@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.easyfood.R
 import com.example.easyfood.databinding.MealItemBinding
 import com.example.easyfood.pojo.MealsByCategory
 
@@ -30,8 +32,13 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
 
     override fun onBindViewHolder(holder: CategoryMealsViewHolder, position: Int)
     {
+        val options: RequestOptions = RequestOptions()
+            .placeholder(R.drawable.food_loading_gif)
+            .error(R.drawable.more_meal)
+
         Glide.with(holder.itemView)
             .load(mealsList[position].strMealThumb)
+            .apply(options)
             .into(holder.binding.imgMeal)
         holder.binding.mealNameTv.text = mealsList[position].strMeal
     }

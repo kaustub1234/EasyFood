@@ -54,6 +54,11 @@ class HomeFragment : Fragment() {
         categoriesAdapter = CategoriesAdapter(this)
         categoryViewType = CATEGORY_NOT_EXPANDED;
 
+        //initiating views
+        Glide.with(this@HomeFragment)
+            .asGif()
+            .load(R.drawable.food_loading_gif)
+            .into(binding.icRandomMeal)
 
         viewModel.getPopularItem()
         viewModel.getRandomMeal();

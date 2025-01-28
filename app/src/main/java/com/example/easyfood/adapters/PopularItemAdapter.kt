@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.easyfood.R
 import com.example.easyfood.databinding.PopularItemBinding
 import com.example.easyfood.pojo.MealsByCategory
+
 
 class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItemViewHolder>() {
     private var mealList = ArrayList<MealsByCategory>()
@@ -36,15 +39,20 @@ class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItem
     }
 
     override fun onBindViewHolder(holder: PopularItemViewHolder, position: Int) {
+        val options: RequestOptions = RequestOptions()
+            .placeholder(R.drawable.food_loading_gif)
+            .error(R.drawable.more_meal)
+
         Glide.with(holder.itemView)
             .load(mealList.get(position).strMealThumb)
+            .apply(options)
             .into(holder.binding.imgPopularMealItem)
 
         holder.itemView.setOnClickListener {
             onItemClickListener.invoke(mealList.get(position))
         }
 
-        holder.itemView.setOnLongClickListener{
+        holder.itemView.setOnLongClickListener {
             onLongItemClickListener?.invoke(mealList[position])
             true
         }
