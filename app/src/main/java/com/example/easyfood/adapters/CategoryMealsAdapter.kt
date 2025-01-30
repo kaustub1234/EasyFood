@@ -32,13 +32,11 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
 
     override fun onBindViewHolder(holder: CategoryMealsViewHolder, position: Int)
     {
-        val options: RequestOptions = RequestOptions()
-            .placeholder(R.drawable.food_loading_gif)
-            .error(R.drawable.more_meal)
 
         Glide.with(holder.itemView)
             .load(mealsList[position].strMealThumb)
-            .apply(options)
+            .thumbnail(Glide.with(holder.itemView).asDrawable().load(R.drawable.food_loading_gif))
+            .error(R.drawable.more_meal)
             .into(holder.binding.imgMeal)
         holder.binding.mealNameTv.text = mealsList[position].strMeal
     }

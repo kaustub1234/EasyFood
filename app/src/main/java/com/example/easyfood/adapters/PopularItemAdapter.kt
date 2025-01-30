@@ -39,13 +39,10 @@ class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItem
     }
 
     override fun onBindViewHolder(holder: PopularItemViewHolder, position: Int) {
-        val options: RequestOptions = RequestOptions()
-            .placeholder(R.drawable.food_loading_gif)
-            .error(R.drawable.more_meal)
-
         Glide.with(holder.itemView)
             .load(mealList.get(position).strMealThumb)
-            .apply(options)
+            .thumbnail(Glide.with(holder.itemView).asDrawable().load(R.drawable.food_loading_gif))
+            .error(R.drawable.more_meal)
             .into(holder.binding.imgPopularMealItem)
 
         holder.itemView.setOnClickListener {
