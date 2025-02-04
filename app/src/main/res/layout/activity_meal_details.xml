@@ -151,7 +151,7 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:src="@drawable/ic_video" />
+        android:src="@drawable/youtube_icon" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/linearProgressBar"

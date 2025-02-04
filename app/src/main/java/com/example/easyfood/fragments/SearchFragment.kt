@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.example.easyfood.R
 import com.example.easyfood.adapters.MealsAdapter
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.databinding.FragmentSearchBinding
@@ -39,26 +42,51 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareSearchRecycleView();
+        noContentView("Search for your favorite meals here...")
+        Glide.with(view).asGif().load(R.drawable.food_loading_gif).into(binding.noContentImg)
 
         binding.searchImage.setOnClickListener {
-            searchMeal()
+            noContentView("Search for your favorite meals here...")
+            binding.searchBoxEditText.setText("");
         }
 
         var searchJob: Job? = null
-        binding.searchBoxEditText.addTextChangedListener {
-            searchJob?.cancel()
-            searchJob = lifecycleScope.launch {
-                delay(500)
-                viewModel.searchMeals(it.toString())
+        binding.searchBoxEditText.doAfterTextChanged {
+            if (it.toString().isEmpty()) {
+                searchJob?.cancel()
+                binding.searchImage.visibility = View.INVISIBLE
+                noContentView("Search for your favorite meals here...")
+            } else {
+                binding.searchImage.visibility = View.VISIBLE
+                searchJob?.cancel()
+                searchJob = lifecycleScope.launch {
+                    delay(300)
+                    viewModel.searchMeals(it.toString())
+                }
             }
         }
 
         observeSearchedMealsLiveData();
     }
 
+
+    fun noContentView(msg: String) {
+        binding.apply {
+            searchResultRecycleView.visibility = View.INVISIBLE
+            noContentLinearLayout.visibility = View.VISIBLE
+            noContentMsg.text = msg
+        }
+    }
+
     private fun observeSearchedMealsLiveData() {
         viewModel.observeSearchMealsLiveData().observe(viewLifecycleOwner) {
-            searchRecyclerViewAdapter.differ.submitList(it)
+            if (!it.isNullOrEmpty()) {
+                searchRecyclerViewAdapter.differ.submitList(it)
+                binding.searchResultRecycleView.visibility = View.VISIBLE
+                binding.noContentLinearLayout.visibility = View.INVISIBLE
+            } else {
+                noContentView("No such meal found...")
+            }
         }
     }
 
