@@ -54,7 +54,7 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun onCategoryClicked() {
-        categoriesAdapter.onItemClickListener = {category: Category, idx ->
+        categoriesAdapter.onItemClickListener = { category: Category, idx ->
             val intent = Intent(activity, CategoryMealsActivity::class.java)
             intent.putExtra(HomeFragment.CATEGORY_NAME, category.strCategory)
             startActivity(intent)
