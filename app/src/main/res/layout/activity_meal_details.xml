@@ -94,6 +94,7 @@
 
             <TextView
                 android:id="@+id/ingrediantsTv"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -107,6 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/mealShortDescLinearLayout" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
                 android:id="@+id/ingrediantsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

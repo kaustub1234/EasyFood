@@ -102,4 +102,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+
 }

@@ -10,6 +10,7 @@ import com.example.easyfood.R
 import com.example.easyfood.databinding.MealItemBinding
 import com.example.easyfood.pojo.Category
 import com.example.easyfood.pojo.MealsByCategory
+import com.google.gson.JsonObject
 
 class CategoryMealsAdapter() :
     RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewHolder>() {

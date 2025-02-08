@@ -8,12 +8,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.easyfood.adapters.IngrediantsAdapter
 import com.example.easyfood.databinding.ActivityMealDetailsBinding
 import com.example.easyfood.fragments.HomeFragment
 import com.example.easyfood.pojo.Meal
 import com.example.easyfood.viewModel.MealDetailsViewModel
 import com.example.easyfood.viewModel.MealViewModelFactory
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import roomDb.MealDataBase
 
 class MealDetailsActivity : AppCompatActivity() {
@@ -25,6 +29,7 @@ class MealDetailsActivity : AppCompatActivity() {
     private lateinit var youtubeLink: String
     private var meal: Meal? = null
     private var ingrediantsList: List<String> = ArrayList<String>();
+    private lateinit var ingrediantsAdapter: IngrediantsAdapter;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,19 +77,21 @@ class MealDetailsActivity : AppCompatActivity() {
             binding.locationTv.text = "Location: ${it.strArea}"
             binding.instructionDescTv.text = it.strInstructions
             youtubeLink = it.strYoutube.toString()
+            val gson = Gson()
+            val jsonObject: JsonObject = gson.fromJson(gson.toJson(meal), JsonObject::class.java)
 
-            getIngrediantsDetails(meal);
+            ingrediantsAdapter = IngrediantsAdapter()
+            binding.ingrediantsRecyclerView.apply {
+                layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+                adapter = ingrediantsAdapter
+//                https://www.themealdb.com/images/ingredients/Lemon Juice-Small.png
+            }
+
+            ingrediantsAdapter.setIngrediantsList(jsonObject)
+
+            binding.ingrediantsTv.visibility = View.VISIBLE
+            binding.ingrediantsRecyclerView.visibility = View.VISIBLE
             onResponseCase()
-        }
-    }
-
-    private fun getIngrediantsDetails(meal: Meal?) {
-        for (i in 1 until 21) {
-            Log.d(
-                "Tagyy", Meal::class.members
-                    .find { it.name == "strIngredient1" }.toString()
-            )
-
         }
     }
 
