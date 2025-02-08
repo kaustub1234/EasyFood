@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
     android:layout_margin="@dimen/_5sdp"
     android:elevation="@dimen/_2sdp"
-    app:cardCornerRadius="@dimen/_5sdp">
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,6 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background"
+            android:minHeight="@dimen/_47sdp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/img_meal"
             app:layout_constraintStart_toStartOf="@id/img_meal">
@@ -35,6 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:singleLine="false"
                 android:text="Hello world"
                 android:textAlignment="center"
                 android:textColor="@color/white"

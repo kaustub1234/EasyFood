@@ -8,9 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.easyfood.R
 import com.example.easyfood.databinding.MealItemBinding
+import com.example.easyfood.pojo.Category
 import com.example.easyfood.pojo.MealsByCategory
 
-class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewHolder>() {
+class CategoryMealsAdapter() :
+    RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewHolder>() {
+    var onItemClickListener: ((MealsByCategory, Int) -> Unit)? = null
+
     inner class CategoryMealsViewHolder(val binding: MealItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -30,8 +34,7 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
         return mealsList.size;
     }
 
-    override fun onBindViewHolder(holder: CategoryMealsViewHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: CategoryMealsViewHolder, position: Int) {
 
         Glide.with(holder.itemView)
             .load(mealsList[position].strMealThumb)
@@ -39,5 +42,8 @@ class CategoryMealsAdapter : RecyclerView.Adapter<CategoryMealsAdapter.CategoryM
             .error(R.drawable.more_meal)
             .into(holder.binding.imgMeal)
         holder.binding.mealNameTv.text = mealsList[position].strMeal
+        holder.itemView.setOnClickListener {
+            onItemClickListener!!.invoke(mealsList[position], position)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.easyfood.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.easyfood.adapters.MealsAdapter
 import com.example.easyfood.activities.MainActivity
+import com.example.easyfood.activities.MealDetailsActivity
 import com.example.easyfood.databinding.FragmentFravoritesBinding
 import com.example.easyfood.pojo.Meal
+import com.example.easyfood.pojo.MealsByCategory
 import com.example.easyfood.viewModel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -34,6 +38,14 @@ class FavoritesFragment : Fragment() {
         viewModel = (activity as MainActivity).viewModel
 
         prepareFavoritesRecyclerView()
+        mealsAdapter.onItemClickListener = { category: Meal, idx ->
+            val intent = Intent(activity, MealDetailsActivity::class.java)
+            intent.putExtra(HomeFragment.MEAL_ID, category.idMeal)
+            intent.putExtra(HomeFragment.MEAL_NAME, category.strMeal)
+            intent.putExtra(HomeFragment.MEAL_THUMB, category.strMealThumb)
+            startActivity(intent)
+        }
+
         observeFavorites()
 
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
@@ -50,7 +62,7 @@ class FavoritesFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition;
-                val meal:Meal = mealsAdapter.differ.currentList[position]
+                val meal: Meal = mealsAdapter.differ.currentList[position]
                 viewModel.deleteMeal(mealsAdapter.differ.currentList[position])
 
                 Snackbar.make(requireView(), "Meal deleted", Snackbar.LENGTH_LONG).setAction(

@@ -127,7 +127,6 @@ class HomeFragment : Fragment() {
             intent.putExtra(MEAL_ID, randomMeal.idMeal)
             intent.putExtra(MEAL_NAME, randomMeal.strMeal)
             intent.putExtra(MEAL_THUMB, randomMeal.strMealThumb)
-
             startActivity(intent)
         }
 

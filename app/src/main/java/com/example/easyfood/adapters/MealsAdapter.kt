@@ -10,9 +10,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.easyfood.R
 import com.example.easyfood.databinding.MealItemBinding
 import com.example.easyfood.pojo.Meal
+import com.example.easyfood.pojo.MealsByCategory
 
-class MealsAdapter :
-    RecyclerView.Adapter<MealsAdapter.FavoritesMealsViewHolder>() {
+class MealsAdapter() : RecyclerView.Adapter<MealsAdapter.FavoritesMealsViewHolder>() {
+    var onItemClickListener: ((Meal, Int) -> Unit)? = null
+
     inner class FavoritesMealsViewHolder(val binding: MealItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -47,5 +49,8 @@ class MealsAdapter :
             .into(holder.binding.imgMeal)
 
         holder.binding.mealNameTv.text = meal.strMeal
+        holder.itemView.setOnClickListener {
+            onItemClickListener!!.invoke(meal, position)
+        }
     }
 }
