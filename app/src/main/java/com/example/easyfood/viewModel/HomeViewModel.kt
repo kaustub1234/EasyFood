@@ -11,6 +11,7 @@ import com.example.easyfood.pojo.MealByCategoryList
 import com.example.easyfood.pojo.MealsByCategory
 import com.example.easyfood.pojo.Meal
 import com.example.easyfood.pojo.MealList
+import com.example.easyfood.pojo.RecentMeals
 import com.example.easyfood.retrofit.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -27,6 +28,7 @@ class HomeViewModel(private val mealDataBase: MealDataBase) : ViewModel() {
     private var searchMealsLiveData = MutableLiveData<List<Meal>>();
     private val TAG = javaClass.kotlin.simpleName;
     private var favouriteMealsLive = mealDataBase.mealDAO().getAllMeals();
+    private var recentMealsLiveData = mealDataBase.recentMealDAO().getRecentMeal();
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {
@@ -144,6 +146,10 @@ class HomeViewModel(private val mealDataBase: MealDataBase) : ViewModel() {
 
     fun observeFavoritesMealsLiveData(): LiveData<List<Meal>> {
         return favouriteMealsLive;
+    }
+
+    fun observeRecentMealsLiveData(): LiveData<List<RecentMeals>> {
+        return recentMealsLiveData;
     }
 
     fun observeBottomSheetMealDetailsLiveData(): LiveData<Meal> = bottomSheetMealDetailsLiveData;

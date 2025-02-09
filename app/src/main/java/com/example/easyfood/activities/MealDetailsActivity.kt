@@ -14,6 +14,7 @@ import com.example.easyfood.adapters.IngrediantsAdapter
 import com.example.easyfood.databinding.ActivityMealDetailsBinding
 import com.example.easyfood.fragments.HomeFragment
 import com.example.easyfood.pojo.Meal
+import com.example.easyfood.pojo.RecentMeals
 import com.example.easyfood.viewModel.MealDetailsViewModel
 import com.example.easyfood.viewModel.MealViewModelFactory
 import com.google.gson.Gson
@@ -28,30 +29,24 @@ class MealDetailsActivity : AppCompatActivity() {
     private lateinit var mealDetailsViewModel: MealDetailsViewModel;
     private lateinit var youtubeLink: String
     private var meal: Meal? = null
-    private var ingrediantsList: List<String> = ArrayList<String>();
     private lateinit var ingrediantsAdapter: IngrediantsAdapter;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMealDetailsBinding.inflate(layoutInflater)
-//        mealDetailsViewModel = ViewModelProvider(this@MealDetailsActivity)[MealDetailsViewModel::class.java];
-
-        val mealDataBase = MealDataBase.getInstance(this)
-        mealDetailsViewModel = ViewModelProvider(
-            this@MealDetailsActivity,
-            MealViewModelFactory(mealDataBase)
-        )[MealDetailsViewModel::class.java];
-
-        loadingCase()
         setContentView(binding.root)
         getIntentRandomMealInfo()
-        mealDetailsViewModel.getMealDetail(mealId);
 
+//        mealDetailsViewModel = ViewModelProvider(this@MealDetailsActivity)[MealDetailsViewModel::class.java];
+        loadingCase()
+        setInfoInView()
+        mealDetailsViewModel = ViewModelProvider(
+            this@MealDetailsActivity, MealViewModelFactory(MealDataBase.getInstance(this))
+        )[MealDetailsViewModel::class.java];
+        mealDetailsViewModel.getMealDetail(mealId);
         observerMealDetailsLiveData()
         onClickListeners();
-        setInfoInView()
-
     }
 
     private fun onClickListeners() {
@@ -77,29 +72,40 @@ class MealDetailsActivity : AppCompatActivity() {
             binding.locationTv.text = "Location: ${it.strArea}"
             binding.instructionDescTv.text = it.strInstructions
             youtubeLink = it.strYoutube.toString()
-            val gson = Gson()
-            val jsonObject: JsonObject = gson.fromJson(gson.toJson(meal), JsonObject::class.java)
 
-            ingrediantsAdapter = IngrediantsAdapter()
-            binding.ingrediantsRecyclerView.apply {
-                layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-                adapter = ingrediantsAdapter
-//                https://www.themealdb.com/images/ingredients/Lemon Juice-Small.png
+            setIngrediants()
+
+            it?.let {
+                val recentMeals: RecentMeals = RecentMeals(
+                    idMeal = it.idMeal, strMealThumb = it.strMealThumb, strMeal = it.strMeal
+                )
+                mealDetailsViewModel.insertRecentMeal(recentMeals)
             }
 
-            ingrediantsAdapter.setIngrediantsList(jsonObject)
-
-            binding.ingrediantsTv.visibility = View.VISIBLE
-            binding.ingrediantsRecyclerView.visibility = View.VISIBLE
             onResponseCase()
         }
     }
 
-    private fun setInfoInView() {
-        Glide.with(this@MealDetailsActivity)
-            .load(mealThumb)
-            .into(binding.imgMealDetail)
+    private fun setIngrediants() {
+        val gson = Gson()
+        val jsonObject: JsonObject = gson.fromJson(gson.toJson(meal), JsonObject::class.java)
 
+        ingrediantsAdapter = IngrediantsAdapter()
+        binding.ingrediantsRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            adapter = ingrediantsAdapter
+        }
+
+        jsonObject?.let {
+            ingrediantsAdapter.setIngrediantsList(it)
+        }
+
+        binding.ingrediantsTv.visibility = View.VISIBLE
+        binding.ingrediantsRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun setInfoInView() {
+        Glide.with(this@MealDetailsActivity).load(mealThumb).into(binding.imgMealDetail)
         binding.collapsingToolBar.title = mealName
     }
 

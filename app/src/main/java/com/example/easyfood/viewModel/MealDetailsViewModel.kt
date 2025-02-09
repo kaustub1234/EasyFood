@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.easyfood.pojo.Meal
 import com.example.easyfood.pojo.MealList
+import com.example.easyfood.pojo.RecentMeals
 import com.example.easyfood.retrofit.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -15,19 +16,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import roomDb.MealDataBase
 
-class MealDetailsViewModel(private val mealDataBase: MealDataBase):ViewModel() {
+class MealDetailsViewModel(private val mealDataBase: MealDataBase) : ViewModel() {
     private var mealDetailsLiveData = MutableLiveData<Meal>();
+
     private val TAG = javaClass.kotlin.simpleName;
 
-    fun getMealDetail(id:String)
-    {
-        RetrofitInstance.api.getMealDetails(id).enqueue(object:Callback<MealList>{
+    fun getMealDetail(id: String) {
+        RetrofitInstance.api.getMealDetails(id).enqueue(object : Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
-                if (response.body()!=null)
-                {
-                    mealDetailsLiveData.value= response.body()!!.meals[0]
+                if (response.body() != null) {
+                    mealDetailsLiveData.value = response.body()!!.meals[0]
                     Log.d(TAG, mealDetailsLiveData.toString())
-                }else
+                } else
                     return
             }
 
@@ -37,15 +37,19 @@ class MealDetailsViewModel(private val mealDataBase: MealDataBase):ViewModel() {
         })
     }
 
-    fun observeMealDetailsLiveData():LiveData<Meal>
-    {
+    fun observeMealDetailsLiveData(): LiveData<Meal> {
         return mealDetailsLiveData
     }
 
-    fun insertMeal(meal: Meal)
-    {
+    fun insertMeal(meal: Meal) {
         viewModelScope.launch {
             mealDataBase.mealDAO().insertMeal(meal)
+        }
+    }
+
+    fun insertRecentMeal(recentMeals: RecentMeals) {
+        viewModelScope.launch {
+            mealDataBase.recentMealDAO().insertRecentMeal(recentMeals)
         }
     }
 }

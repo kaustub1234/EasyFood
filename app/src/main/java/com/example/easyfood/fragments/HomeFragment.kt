@@ -21,6 +21,7 @@ import com.example.easyfood.databinding.FragmentHomeBinding
 import com.example.easyfood.pojo.Category
 import com.example.easyfood.pojo.MealsByCategory
 import com.example.easyfood.pojo.Meal
+import com.example.easyfood.pojo.RecentMeals
 import com.example.easyfood.viewModel.HomeViewModel
 
 
@@ -29,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel;
     private lateinit var randomMeal: Meal;
     private lateinit var popularItemAdapter: PopularItemAdapter
+    private lateinit var recentMealsAdapter: PopularItemAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
     private var categoryList: ArrayList<Category> = ArrayList()
     private lateinit var categoryViewType: String;
@@ -51,6 +53,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         viewModel = (activity as MainActivity).viewModel;
         popularItemAdapter = PopularItemAdapter()
+        recentMealsAdapter = PopularItemAdapter()
         categoriesAdapter = CategoriesAdapter(this)
         categoryViewType = CATEGORY_NOT_EXPANDED;
 
@@ -72,6 +75,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecyclerData() {
+        binding.recentMealsRecyclerView.apply {
+            adapter = recentMealsAdapter
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        }
+
         binding.recViewMealsPopular.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             adapter = popularItemAdapter
@@ -119,6 +127,10 @@ class HomeFragment : Fragment() {
 
             categoriesAdapter.setCategoryList(tempArray)
         }
+
+        viewModel.observeRecentMealsLiveData().observe(viewLifecycleOwner) {
+            recentMealsAdapter.setRecentMeals(it as ArrayList<RecentMeals>)
+        }
     }
 
     private fun setListener() {
@@ -138,9 +150,21 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+        recentMealsAdapter.onItemClickListener = {
+            val intent = Intent(activity, MealDetailsActivity::class.java)
+            intent.putExtra(MEAL_ID, it.idMeal)
+            intent.putExtra(MEAL_NAME, it.strMeal)
+            intent.putExtra(MEAL_THUMB, it.strMealThumb)
+            startActivity(intent)
+        }
+
         popularItemAdapter.onLongItemClickListener = {
-            val mealDescBottomSheetFragment = MealDescBottomSheetFragment.newInstance(it.idMeal)
-            mealDescBottomSheetFragment.show(childFragmentManager, "Meal Info")
+            val mealDescBottomSheetFragment = it.idMeal?.let { it1 ->
+                MealDescBottomSheetFragment.newInstance(
+                    it1
+                )
+            }
+            mealDescBottomSheetFragment?.show(childFragmentManager, "Meal Info")
         }
 
         categoriesAdapter.onItemClickListener = { category: Category, idx ->

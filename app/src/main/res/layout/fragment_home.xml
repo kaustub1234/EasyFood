@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -83,6 +84,28 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/recentMealsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:fontFamily="@font/myfont"
+                android:text="Recent meals"
+                android:textColor="@color/g_black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_would_like_to"
+                app:layout_constraintTop_toBottomOf="@id/random_meal_card" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recentMealsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recentMealsTv" />
+
+            <TextView
                 android:id="@+id/tv_over_popular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,8 +115,8 @@
                 android:textColor="@color/g_black"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/tv_would_like_to"
-                app:layout_constraintTop_toBottomOf="@id/random_meal_card" />
+                app:layout_constraintStart_toStartOf="@+id/recentMealsTv"
+                app:layout_constraintTop_toBottomOf="@id/recentMealsRecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_view_meals_popular"
@@ -129,10 +152,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_categories">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:padding="@dimen/_10sdp"
                     android:id="@+id/categoriesRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:padding="@dimen/_10sdp"
                     android:scrollbars="none" />
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

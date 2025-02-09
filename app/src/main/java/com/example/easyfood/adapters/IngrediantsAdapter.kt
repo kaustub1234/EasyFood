@@ -39,8 +39,7 @@ class IngrediantsAdapter() :
     private fun getTempMealsByCategory(jsonObject: JsonObject, position: Int): Category {
         val id = jsonObject.get("idMeal").asString
         val name: String = jsonObject.get("strIngredient$position").asString
-        val thumbnail: String =
-            "https://www.themealdb.com/images/ingredients/${name.replace(" ", "%20")}-Small.png"
+        val thumbnail: String = "https://www.themealdb.com/images/ingredients/${name.replace(" ", "%20")}-Small.png"
 
 
         var tempMealByCategory: Category = Category(id, name,"", thumbnail)

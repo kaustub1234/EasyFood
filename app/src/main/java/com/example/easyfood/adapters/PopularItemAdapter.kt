@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.easyfood.R
 import com.example.easyfood.databinding.PopularItemBinding
 import com.example.easyfood.pojo.MealsByCategory
+import com.example.easyfood.pojo.RecentMeals
 
 
 class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItemViewHolder>() {
@@ -18,6 +19,18 @@ class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItem
     fun setMeals(mealsList: ArrayList<MealsByCategory>) {
         this.mealList = mealsList;
         notifyDataSetChanged()
+    }
+
+    fun setRecentMeals(recentMealsList: ArrayList<RecentMeals>?) {
+        val tempMealList = ArrayList<MealsByCategory>()
+        recentMealsList?.forEach { recentMeals ->
+            val mealsByCategory: MealsByCategory =
+                MealsByCategory(recentMeals.idMeal, recentMeals.strMeal, recentMeals.strMealThumb)
+
+            tempMealList.add(mealsByCategory)
+        }
+
+        this.mealList = tempMealList;
     }
 
     class PopularItemViewHolder(val binding: PopularItemBinding) :
@@ -54,4 +67,5 @@ class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItem
             true
         }
     }
+
 }
