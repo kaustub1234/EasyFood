@@ -31,6 +31,7 @@ class PopularItemAdapter() : RecyclerView.Adapter<PopularItemAdapter.PopularItem
         }
 
         this.mealList = tempMealList;
+        notifyDataSetChanged()
     }
 
     class PopularItemViewHolder(val binding: PopularItemBinding) :

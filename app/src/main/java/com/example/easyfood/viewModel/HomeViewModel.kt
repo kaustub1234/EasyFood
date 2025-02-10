@@ -28,7 +28,7 @@ class HomeViewModel(private val mealDataBase: MealDataBase) : ViewModel() {
     private var searchMealsLiveData = MutableLiveData<List<Meal>>();
     private val TAG = javaClass.kotlin.simpleName;
     private var favouriteMealsLive = mealDataBase.mealDAO().getAllMeals();
-    private var recentMealsLiveData = mealDataBase.recentMealDAO().getRecentMeal();
+    var recentMealsLiveData = mealDataBase.recentMealDAO().getRecentMeal();
 
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealList> {

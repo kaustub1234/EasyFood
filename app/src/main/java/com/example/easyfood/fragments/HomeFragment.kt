@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
         viewModel.getPopularItem()
         viewModel.getRandomMeal();
         viewModel.getCategories();
-
         setUpRecyclerData();
         setObserveAbles()
         setListener()
@@ -129,7 +128,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.observeRecentMealsLiveData().observe(viewLifecycleOwner) {
-            recentMealsAdapter.setRecentMeals(it as ArrayList<RecentMeals>)
+            recentMealsAdapter.setRecentMeals(it.reversed() as ArrayList<RecentMeals>)
         }
     }
 
@@ -159,6 +158,15 @@ class HomeFragment : Fragment() {
         }
 
         popularItemAdapter.onLongItemClickListener = {
+            val mealDescBottomSheetFragment = it.idMeal?.let { it1 ->
+                MealDescBottomSheetFragment.newInstance(
+                    it1
+                )
+            }
+            mealDescBottomSheetFragment?.show(childFragmentManager, "Meal Info")
+        }
+
+        recentMealsAdapter.onLongItemClickListener = {
             val mealDescBottomSheetFragment = it.idMeal?.let { it1 ->
                 MealDescBottomSheetFragment.newInstance(
                     it1
