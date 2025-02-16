@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.easyfood.adapters.CategoriesAdapter
 import com.example.easyfood.adapters.PopularItemAdapter
 import com.example.easyfood.R
+import com.example.easyfood.Services.MyService
 import com.example.easyfood.activities.CategoryMealsActivity
 import com.example.easyfood.activities.MainActivity
 import com.example.easyfood.activities.MealDetailsActivity
@@ -69,6 +70,10 @@ class HomeFragment : Fragment() {
         setUpRecyclerData();
         setObserveAbles()
         setListener()
+
+        //Start Service
+        (activity as MainActivity).startService(Intent(activity, MyService::class.java));
+//        MyService.enqueueWork(requireContext(), Intent(activity, MyService::class.java))
 
         return binding.root;
     }
@@ -128,7 +133,13 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.observeRecentMealsLiveData().observe(viewLifecycleOwner) {
-            recentMealsAdapter.setRecentMeals(it.reversed() as ArrayList<RecentMeals>)
+            if (!it.isNullOrEmpty())
+                recentMealsAdapter.setRecentMeals(it.reversed() as ArrayList<RecentMeals>)
+            else
+            {
+                binding.recentMealsRecyclerView.visibility = View.INVISIBLE
+                binding.recentMealsTv.visibility = View.INVISIBLE
+            }
         }
     }
 
